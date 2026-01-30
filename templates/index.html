@@ -1,0 +1,250 @@
+2<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversa - CyberBuddy_2000@msn.com</title>
+    <style>
+        /* --- ESTILO MSN RETRÔ --- */
+        :root {
+            --msn-blue-light: #d6e3f3;
+            --msn-blue-medium: #a0b8d9;
+            --msn-blue-dark: #5d83b4;
+            --msn-border-light: #ffffff;
+            --msn-border-dark: #6a8cc1;
+            --msn-text-blue: #000080;
+            --msn-green: #008000;
+        }
+
+        body {
+            background-color: var(--msn-blue-medium);
+            font-family: "Tahoma", "Trebuchet MS", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .msn-window {
+            width: 95%;
+            max-width: 600px;
+            height: 90vh;
+            max-height: 700px;
+            background-color: var(--msn-blue-light);
+            border-top: 2px solid var(--msn-border-light);
+            border-left: 2px solid var(--msn-border-light);
+            border-right: 2px solid var(--msn-border-dark);
+            border-bottom: 2px solid var(--msn-border-dark);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .title-bar {
+            background: linear-gradient(to right, var(--msn-blue-dark), var(--msn-blue-medium));
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .msn-icon {
+            width: 16px;
+            height: 16px;
+            background-color: #fff; /* Placeholder para ícone */
+            border: 1px solid #000;
+            margin-right: 5px;
+            display: inline-block;
+            border-radius: 2px;
+        }
+        
+        .status-green { background-color: var(--msn-green); }
+
+        .chat-container {
+            flex-grow: 1;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-display-area {
+            flex-grow: 1;
+            background-color: white;
+            border: 2px inset var(--msn-border-medium);
+            overflow-y: scroll;
+            padding: 10px;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Estilo das mensagens */
+        .message-header {
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .user-header { color: var(--msn-text-blue); }
+        .bot-header { color: #333; }
+        .message-text { 
+            font-family: "Comic Sans MS", "Arial", sans-serif; /* Um toque de Comic Sans */
+            margin-left: 10px; 
+        }
+        .bot-text { color: black; }
+        .user-text { color: var(--msn-text-blue); }
+
+        .input-area {
+            height: 100px;
+            background-color: var(--msn-blue-light);
+            border-top: 1px solid var(--msn-border-dark);
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .toolbar {
+            font-size: 12px;
+            color: var(--msn-text-blue);
+            padding-left: 5px;
+        }
+
+        textarea {
+            flex-grow: 1;
+            resize: none;
+            border: 2px inset var(--msn-border-medium);
+            font-family: "Tahoma", sans-serif;
+            padding: 5px;
+        }
+
+        .action-area {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Botão MSN clássico */
+        .msn-button {
+            background-color: #e1e1e1;
+            border-top: 2px solid #ffffff;
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #808080;
+            border-bottom: 2px solid #808080;
+            padding: 4px 20px;
+            font-family: "Tahoma", sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .msn-button:active {
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            background-color: #dcdcdc;
+        }
+
+        #loading-indicator {
+            font-style: italic;
+            color: gray;
+            font-size: 12px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="msn-window">
+        <div class="title-bar">
+            <div><span class="msn-icon status-green"></span> Conversa com CyberBuddy_2000</div>
+            <div>_ □ X</div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="chat-display-area" id="chatDisplay">
+                <div>
+                    <span class="message-header bot-header">CyberBuddy_2000 diz:</span>
+                    <div class="message-text bot-text">Oi! tc? Acabei de conectar, a internet hj ta lenta d+ :-)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <div class="toolbar">Fonte: Tahoma (10pt) ▼ <b>N</b> <i>I</i> <u>S</u></div>
+            <textarea id="userInput" placeholder="Digite uma mensagem..."></textarea>
+            
+            <div class="action-area">
+                <span id="loading-indicator">CyberBuddy_2000 está digitando...</span>
+                <button class="msn-button" onclick="sendMessage()">Enviar (Enter)</button>
+                <button class="msn-button">Chamar Atenção!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatDisplay = document.getElementById('chatDisplay');
+        const userInput = document.getElementById('userInput');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // Função para adicionar mensagens na tela
+        function appendMessage(sender, text, isUser) {
+            const msgDiv = document.createElement('div');
+            const headerClass = isUser ? 'user-header' : 'bot-header';
+            const textClass = isUser ? 'user-text' : 'bot-text';
+            const senderName = isUser ? 'Você' : 'CyberBuddy_2000';
+
+            msgDiv.innerHTML = `
+                <span class="message-header ${headerClass}">${senderName} diz:</span>
+                <div class="message-text ${textClass}">${text}</div>
+            `;
+            chatDisplay.appendChild(msgDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight; // Rola para baixo
+        }
+
+        // Função para enviar a mensagem para o Python (Flask)
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Adiciona a mensagem do usuário na tela
+            appendMessage('Você', message, true);
+            userInput.value = '';
+            loadingIndicator.style.display = 'block';
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: message })
+                });
+                const data = await response.json();
+                
+                // Simula um pequeno delay de "digitação" da internet discada
+                setTimeout(() => {
+                    appendMessage('CyberBuddy_2000', data.reply, false);
+                    loadingIndicator.style.display = 'none';
+                }, 1000);
+
+            } catch (error) {
+                appendMessage('Sistema', 'Erro ao enviar mensagem. A conexão discada pode ter caído.', false);
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Enviar com Enter
+        userInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
