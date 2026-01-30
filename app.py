@@ -66,5 +66,4 @@ def chat_api():
         return jsonify({"reply": "Ops, minha conexão discada caiu aqui... tenta de novo? :-("})
 
 if __name__ == "__main__":
-    # Roda o servidor localmente
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)
